@@ -1,0 +1,105 @@
+- generic [ref=f5e2]:
+  - img "Mini Monkey Italy" [ref=f5e4]
+  - button "Salta" [ref=f5e21] [cursor=pointer]
+  - banner [ref=f5e22]:
+    - link "Mini Monkey" [ref=f5e23] [cursor=pointer]:
+      - /url: "#top"
+      - img "Mini Monkey Italy" [ref=f5e24]
+    - navigation [ref=f5e25]:
+      - link "Collezioni" [ref=f5e26] [cursor=pointer]:
+        - /url: "#collezioni"
+      - link "Prodotti" [ref=f5e27] [cursor=pointer]:
+        - /url: "#prodotti"
+      - link "Il brand" [ref=f5e28] [cursor=pointer]:
+        - /url: "#storia"
+      - link "Contatti" [ref=f5e29] [cursor=pointer]:
+        - /url: "#contatti"
+    - button "Carrello, 0 articoli" [ref=f5e30] [cursor=pointer]:
+      - text: Carrello
+      - generic [ref=f5e31]: "0"
+  - main [ref=f5e32]:
+    - generic [ref=f5e33]:
+      - generic [ref=f5e34]:
+        - paragraph [ref=f5e35]: Handmade · Organic · Made in Italy
+        - heading [level=2] [ref=f5e36]:
+          - text: Piccole cose,
+          - emphasis [ref=f5e37]: fatte con cura
+        - paragraph [ref=f5e38]: Abbigliamento, nursery e regali per i più piccoli, lavorati a mano in Italia con fibre naturali.
+        - link "Scopri la collezione" [ref=f5e39] [cursor=pointer]:
+          - /url: "#prodotti"
+      - generic [ref=f5e40]:
+        - img "Neonata con cappellino e completo all'uncinetto bianco" [ref=f5e42]
+        - img "Completo azzurro con volant" [ref=f5e43]
+    - generic [ref=f5e45]:
+      - generic [ref=f5e46]: Handmade ✦ Made in Italy ✦ Cotone organico ✦ Per i primi anni ✦ Handmade ✦ Made in Italy ✦ Cotone organico ✦ Per i primi anni ✦
+      - generic [ref=f5e47]: Handmade ✦ Made in Italy ✦ Cotone organico ✦ Per i primi anni ✦ Handmade ✦ Made in Italy ✦ Cotone organico ✦ Per i primi anni ✦
+    - generic [ref=f5e48]:
+      - heading "Collezioni" [level=3] [ref=f5e49]
+      - generic [ref=f5e50]:
+        - link "Babies" [ref=f5e51] [cursor=pointer]:
+          - /url: "#prodotti"
+        - link "Collection" [ref=f5e53] [cursor=pointer]:
+          - /url: "#prodotti"
+        - link "Accessori" [ref=f5e55] [cursor=pointer]:
+          - /url: "#prodotti"
+    - generic [ref=f5e57]:
+      - heading "I nostri prodotti" [level=3] [ref=f5e58]
+      - generic [ref=f5e59]:
+        - article [ref=f5e60]:
+          - generic [ref=f5e61]:
+            - img "Vestitino rosa con volant" [ref=f5e62]
+            - button "Aggiungi" [ref=f5e63] [cursor=pointer]
+          - heading "Vestitino rosa con volant" [level=4] [ref=f5e64]
+          - paragraph [ref=f5e65]: € 68,00
+        - article [ref=f5e66]:
+          - generic [ref=f5e67]:
+            - img "Completo azzurro polvere" [ref=f5e68]
+            - button "Aggiungi" [ref=f5e69] [cursor=pointer]
+          - heading "Completo azzurro polvere" [level=4] [ref=f5e70]
+          - paragraph [ref=f5e71]: € 64,00
+        - article [ref=f5e72]:
+          - generic [ref=f5e73]:
+            - img "Completo rosa antico" [ref=f5e74]
+            - button "Aggiungi" [ref=f5e75] [cursor=pointer]
+          - heading "Completo rosa antico" [level=4] [ref=f5e76]
+          - paragraph [ref=f5e77]: € 62,00
+        - article [ref=f5e78]:
+          - generic [ref=f5e79]:
+            - img "Cappellino alle fragole" [ref=f5e80]
+            - button "Aggiungi" [ref=f5e81] [cursor=pointer]
+          - heading "Cappellino alle fragole" [level=4] [ref=f5e82]
+          - paragraph [ref=f5e83]: € 32,00
+        - article [ref=f5e84]:
+          - generic [ref=f5e85]:
+            - img "Clip ciuccio personalizzata" [ref=f5e86]
+            - button "Aggiungi" [ref=f5e87] [cursor=pointer]
+          - heading "Clip ciuccio personalizzata" [level=4] [ref=f5e88]
+          - paragraph [ref=f5e89]: € 18,00
+        - article [ref=f5e90]:
+          - generic [ref=f5e91]:
+            - img "Copertina in cotone" [ref=f5e92]
+            - button "Aggiungi" [ref=f5e93] [cursor=pointer]
+          - heading "Copertina in cotone" [level=4] [ref=f5e94]
+          - paragraph [ref=f5e95]: € 58,00
+      - paragraph [ref=f5e96]: Prodotti e prezzi di esempio, solo per la dimostrazione.
+    - generic [ref=f5e99]:
+      - heading "Il brand" [level=3] [ref=f5e100]
+      - paragraph [ref=f5e101]: "Mini Monkey nasce dall'amore per i dettagli: fibre naturali, lavorazioni a mano e tanta pazienza. Ogni capo è pensato per accompagnare i primi anni dei bambini."
+      - list [ref=f5e102]:
+        - listitem [ref=f5e103]:
+          - text: ✦
+          - strong [ref=f5e104]: Fatto a mano
+          - text: punto dopo punto
+        - listitem [ref=f5e105]:
+          - text: ✦
+          - strong [ref=f5e106]: Fibre naturali
+          - text: morbide sulla pelle
+        - listitem [ref=f5e107]:
+          - text: ✦
+          - strong [ref=f5e108]: Made in Italy
+          - text: dal filo al fiocco
+  - contentinfo [ref=f5e109]:
+    - img "Mini Monkey Italy" [ref=f5e110]
+    - paragraph [ref=f5e111]: "Instagram: @minimonkey.italy"
+    - paragraph [ref=f5e112]: "Pagina dimostrativa: prodotti e prezzi sono di esempio."
+  - status
