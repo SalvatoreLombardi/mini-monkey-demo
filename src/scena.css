@@ -26,11 +26,6 @@
     radial-gradient(circle at 50% 50%, rgba(66, 58, 54, 0.9) 0%, rgba(78, 69, 64, 0.7) 30%, rgba(96, 87, 81, 0.35) 55%, rgba(96, 87, 81, 0) 72%),
     radial-gradient(circle at 36% 40%, rgba(110, 100, 94, 0.5) 0%, rgba(110, 100, 94, 0) 45%); }
 
-/* fumo vero (simulazione GPU): un canvas sopra il cratere, dentro lo strato del vulcano */
-.sc-fumo-gpu { position: absolute; left: -80%; width: 260%; bottom: 93%; height: 62svh; pointer-events: none;
-  mask-image: radial-gradient(closest-side at 50% 55%, #000 55%, transparent 100%); -webkit-mask-image: radial-gradient(closest-side at 50% 55%, #000 55%, transparent 100%); }
-.gpu .sc-sbuffo { display: none; }
-
 /* alberi a sinistra */
 .sc-alberi { left: 0; bottom: 14%; height: 94svh; aspect-ratio: 545 / 1004; z-index: 3; }
 .sc-alberi img { height: 100%; width: 100%; }

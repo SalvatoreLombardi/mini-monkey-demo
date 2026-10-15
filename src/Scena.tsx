@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import App from './App'
-import FumoVulcano from './FumoVulcano'
 import { creaSuoni, type Suoni } from './suoni'
 import './scena.css'
 
@@ -336,7 +335,6 @@ function Palcoscenico({ suoni, onPronto }: { suoni: Suoni | null; onPronto: () =
 
         <div className="sc-vulcano sc-lyr">
           <img className="idle" src={BASE + 'vulcano.webp'} alt="" />
-          <FumoVulcano />
           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => <i key={i} className="sc-sbuffo" />)}
         </div>
         <div className="sc-alberi sc-lyr sale"><img className="idle" src={BASE + 'alberi.webp'} alt="" /></div>
