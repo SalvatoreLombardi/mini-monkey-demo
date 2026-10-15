@@ -1,6 +1,6 @@
 /* scena d'ingresso: la giungla di Mini Monkey */
-.sc { position: relative; height: 420svh; background: #cfe4ea; }
-.sc-stage { position: sticky; top: 0; height: 100svh; min-height: 560px; overflow: hidden; isolation: isolate; }
+.sc { position: relative; height: 420svh; background: #34472a; }
+.sc-stage { position: sticky; top: 0; height: 100svh; height: 100lvh; min-height: 560px; overflow: hidden; isolation: isolate; }
 .sc-stage img { display: block; max-width: none; user-select: none; -webkit-user-drag: none; }
 
 .sc-cielo { position: absolute; inset: 0; background: linear-gradient(#bfe0ea 0%, #dcecea 45%, #f7ead2 78%); }

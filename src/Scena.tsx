@@ -278,10 +278,12 @@ function Palcoscenico({ suoni, onPronto }: { suoni: Suoni | null; onPronto: () =
       let girati = 0
       const pan = () => window.innerWidth
       // di quanto spostare un animale per farlo fermare accanto alla scimmietta, che a fine corsa sta al centro (distanza in altezze di schermo)
-      const verso = (sel: string, distanza: number) => {
+      // in verticale (telefono) la distanza si misura in larghezze di schermo, cosi' nessuno esce dallo schermo
+      const verso = (sel: string, distanza: number, distanzaVert: number) => {
         const e = q(sel)
         const centro = e.offsetLeft + e.offsetWidth / 2
-        return W() / 2 + distanza * H() - centro
+        const d = W() < H() ? distanzaVert * W() : distanza * H()
+        return W() / 2 + d - centro
       }
       let fermo = 0
       const scrub = gsap.timeline({ scrollTrigger: sc, defaults: { ease: 'none' } })
@@ -296,11 +298,11 @@ function Palcoscenico({ suoni, onPronto }: { suoni: Suoni | null; onPronto: () =
         // la scimmietta cammina fino al centro della scena, sotto il bottone
         .to('.sc-personaggio', { x: () => 0.07 * window.innerWidth, duration: 7 }, 1)
         // giraffa ed elefante seguono la scimmietta invece di restare indietro
-        .to('.sc-giraffa', { x: () => verso('.sc-giraffa', -0.34), duration: 7 }, 1)
-        .to('.sc-elefante', { x: () => verso('.sc-elefante', -0.16), duration: 7 }, 1)
+        .to('.sc-giraffa', { x: () => verso('.sc-giraffa', -0.34, -0.36), duration: 7 }, 1)
+        .to('.sc-elefante', { x: () => verso('.sc-elefante', -0.16, -0.2), duration: 7 }, 1)
         // leone e zebra entrano da destra e vanno verso la scimmietta, poi si fermano
-        .to('.sc-leone', { x: () => verso('.sc-leone', 0.15), duration: 7 }, 1)
-        .to('.sc-zebra', { x: () => verso('.sc-zebra', 0.3), duration: 7 }, 1)
+        .to('.sc-leone', { x: () => verso('.sc-leone', 0.15, 0.2), duration: 7 }, 1)
+        .to('.sc-zebra', { x: () => verso('.sc-zebra', 0.3, 0.37), duration: 7 }, 1)
         // pausa finale: tutti fermi al centro prima che arrivi il sito
         .to({}, { duration: 1.6 }, 8)
         .to('.sc-erba-davanti', { x: () => -pan() * 1.3, duration: 7 }, 1)
