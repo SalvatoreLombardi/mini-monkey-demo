@@ -123,15 +123,15 @@ export default function FumoVulcano() {
     const SIM = telefono ? 96 : 128
     const DYE = telefono ? 320 : 512
     const P = {
-      densita: 0.55, // piu' alto = il fumo svanisce prima
-      velocita: 0.35,
+      densita: 0.9, // piu' alto = il fumo svanisce prima
+      velocita: 1.1,
       pressione: 0.8,
       iterazioni: telefono ? 14 : 20,
-      vortici: 36,
-      raggio: 0.085, // grandezza della nuvola per ogni spinta (ridotta: meno massa di fumo)
+      vortici: 10,
+      raggio: 0.22, // grandezza della nuvola per ogni spinta (ridotta: meno massa di fumo)
       forza: 5200,
-      spinta: 2.2,
-      quantita: 0.24, // più alto = fumo più nero (circa un settimo della prima prova)
+      spinta: 0.7,
+      quantita: 0.36, // più alto = fumo più nero (circa un settimo della prima prova)
     }
 
     // ---- programmi
@@ -337,8 +337,9 @@ export default function FumoVulcano() {
       const dt = Math.min((ora - ultimoFrame) / 1000, 1 / 60)
       ultimoFrame = ora
       if (visibile && !document.hidden) {
-        spruzza(0.5 + (Math.random() - 0.5) * 0.03, 0.035, -110 + (Math.random() - 0.5) * 500, 2700 + Math.random() * 900)
-        passo(dt || 1 / 60)
+        // uno sbuffo ogni ~1,6 s: per un attimo il cratere spinge fuori una nuvola tonda, poi si calma
+        if (ora % 2200 < 160) spruzza(0.5, 0.06, -15 + (Math.random() - 0.5) * 40, 140 + Math.random() * 60)
+        passo((dt || 1 / 60) * 0.45) // tutto a rallentatore
         mostra()
       }
       frame = requestAnimationFrame(giro)
