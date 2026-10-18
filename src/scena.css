@@ -20,11 +20,7 @@
 /* vulcano a destra */
 .sc-vulcano { right: 3vw; bottom: 12.5%; height: 44svh; aspect-ratio: 974 / 958; z-index: 2; }
 .sc-vulcano img { height: 100%; width: 100%; }
-.sc-sbuffo { position: absolute; left: 41%; top: 0%; width: 15%; aspect-ratio: 1; opacity: 0; filter: blur(3px); border-radius: 50%;
-  /* sbuffo tondo e morbido: nucleo scuro che sfuma piano fino al bordo, il resto e' trasparente */
-  background:
-    radial-gradient(circle at 50% 50%, rgba(66, 58, 54, 0.9) 0%, rgba(140, 130, 124, 0.7) 30%, rgba(96, 87, 81, 0.35) 55%, rgba(96, 87, 81, 0) 72%),
-    radial-gradient(circle at 36% 40%, rgba(110, 100, 94, 0.5) 0%, rgba(110, 100, 94, 0) 45%); }
+.sc-sbuffo { position: absolute; left: 36%; top: -6%; width: 26%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(#f4ece0 40%, rgba(244, 236, 224, 0) 70%); opacity: 0; filter: blur(2px); }
 
 /* alberi a sinistra */
 .sc-alberi { left: 0; bottom: 14%; height: 94svh; aspect-ratio: 545 / 1004; z-index: 3; }

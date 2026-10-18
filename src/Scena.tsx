@@ -120,16 +120,13 @@ function Palcoscenico({ suoni, onPronto }: { suoni: Suoni | null; onPronto: () =
       qa('.sc-nuvola').forEach((n, i) => {
         gsap.fromTo(n, { xPercent: -140 }, { xPercent: 140, duration: 70 + i * 25, ease: 'none', repeat: -1, delay: -i * 30 })
       })
-      // il fumo esce dal cratere a sbuffi tondi e morbidi, sale in modo irregolare, si allarga, si schiarisce e deriva col vento
+      // il fumo esce dal cratere, si allarga, deriva di lato e si dissolve
       qa('.sc-sbuffo').forEach((p, i) => {
-        const r = (n: number) => ((Math.sin(i * 12.9898 + n * 78.233) * 43758.5453) % 1 + 1) % 1 // casuale fisso per sbuffo
-        const dx = -(10 + r(1) * 60) + (r(2) - 0.5) * 30
-        const fine = 2.6 + r(3) * 1.4
-        gsap.timeline({ repeat: -1, delay: i * 0.55 })
-          .fromTo(p, { y: 0, x: 0, scale: 0.25 + r(4) * 0.2 }, { y: () => -H() * (0.18 + r(5) * 0.3), x: dx, scale: fine * 1.2, duration: 7, ease: 'sine.out' })
-          .to(p, { rotation: (r(6) - 0.5) * 120, duration: 7, ease: 'none' }, 0)
-          .fromTo(p, { opacity: 0 }, { opacity: 0.85, duration: 1.2, ease: 'sine.out' }, 0)
-          .to(p, { opacity: 0, duration: 3.5, ease: 'sine.inOut' }, 3.5)
+        const dx = (i % 2 ? 1 : -1) * (6 + i * 3)
+        gsap.timeline({ repeat: -1, delay: i * 0.9 })
+          .fromTo(p, { y: 0, x: 0, scale: 0.35 }, { y: () => -H() * 0.2, x: dx, scale: 1.9, duration: 4.5, ease: 'sine.out' })
+          .fromTo(p, { opacity: 0 }, { opacity: 0.85, duration: 0.8, ease: 'none' }, 0)
+          .to(p, { opacity: 0, duration: 2, ease: 'none' }, 2.5)
       })
 
       // --- la scimmietta appesa segue il becco finche' e' attaccata ---
@@ -263,12 +260,21 @@ function Palcoscenico({ suoni, onPronto }: { suoni: Suoni | null; onPronto: () =
         trigger: el, start: 'top top', end: 'bottom bottom', scrub: 0.6, invalidateOnRefresh: true,
         onUpdate: (self: ScrollTrigger) => {
           S()?.volume(1 - Math.min(1, self.progress / 0.55))
-          // tornando indietro i tre amici si girano a sinistra, andando avanti tornano a destra
-          const lato = self.direction === -1 ? 180 : 0
+          // tornando indietro i tre amici si girano a sinistra; andando avanti, o arrivati in fondo, guardano a destra
+          const lato = self.direction === -1 && self.progress < 0.84 ? 180 : 0
           if (self.direction !== 0 && lato !== girati) {
             girati = lato
-            // si voltano davvero nello spazio (rotazione sull'asse verticale) con un po' di prospettiva, uno dopo l'altro
-            gsap.to(['.sc-stand', '.sc-elefante', '.sc-giraffa'], { rotationY: lato, transformPerspective: 700, duration: 0.6, ease: 'power2.inOut', stagger: 0.08, overwrite: 'auto' })
+            // saltino con giravolta: nel punto piu' alto il verso cambia di colpo, poi atterrano con un piccolo schiacciamento
+            const verso = lato ? -1 : 1
+            ;['.sc-stand', '.sc-elefante', '.sc-giraffa'].forEach((sel, i) => {
+              gsap.timeline({ delay: i * 0.1 })
+                .set(sel, { transformOrigin: '50% 100%' })
+                .to(sel, { yPercent: -9, scaleY: 1.04, duration: 0.2, ease: 'power2.out', overwrite: 'auto' })
+                .set(sel, { scaleX: verso, zIndex: sel === '.sc-elefante' && lato ? 7 : '' })
+                .to(sel, { yPercent: 0, scaleY: 1, duration: 0.2, ease: 'power2.in' })
+                .to(sel, { scaleY: 0.93, duration: 0.07, ease: 'power1.out' })
+                .to(sel, { scaleY: 1, duration: 0.4, ease: 'elastic.out(1, 0.4)' })
+            })
           }
           stage.classList.add('cammina')
           window.clearTimeout(fermo)
@@ -299,7 +305,7 @@ function Palcoscenico({ suoni, onPronto }: { suoni: Suoni | null; onPronto: () =
         .to('.sc-personaggio', { x: () => 0.07 * window.innerWidth, duration: 7 }, 1)
         // giraffa ed elefante seguono la scimmietta invece di restare indietro
         .to('.sc-giraffa', { x: () => verso('.sc-giraffa', -0.34, -0.36), duration: 7 }, 1)
-        .to('.sc-elefante', { x: () => verso('.sc-elefante', -0.16, -0.2), duration: 7 }, 1)
+        .to('.sc-elefante', { x: () => verso('.sc-elefante', -0.13, -0.2), duration: 7 }, 1)
         // leone e zebra entrano da destra e vanno verso la scimmietta, poi si fermano
         .to('.sc-leone', { x: () => verso('.sc-leone', 0.15, 0.2), duration: 7 }, 1)
         .to('.sc-zebra', { x: () => verso('.sc-zebra', 0.3, 0.37), duration: 7 }, 1)
@@ -335,7 +341,7 @@ function Palcoscenico({ suoni, onPronto }: { suoni: Suoni | null; onPronto: () =
 
         <div className="sc-vulcano sc-lyr">
           <img className="idle" src={BASE + 'vulcano.webp'} alt="" />
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((i) => <i key={i} className="sc-sbuffo" />)}
+          {[0, 1, 2, 3, 4].map((i) => <i key={i} className="sc-sbuffo" />)}
         </div>
         <div className="sc-alberi sc-lyr sale"><img className="idle" src={BASE + 'alberi.webp'} alt="" /></div>
         <div className="sc-terra" />

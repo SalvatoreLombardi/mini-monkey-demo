@@ -105,7 +105,7 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
           <div className="cols">
             {collezioni.map((c, i) => (
               <a className="collezione reveal" style={{ '--i': i } as React.CSSProperties} href="#prodotti" key={c.nome}>
-                <img src={`/foto/${c.foto}.jpg`} alt="" loading="lazy" />
+                <img src={`${import.meta.env.BASE_URL}foto/${c.foto}.jpg`} alt="" loading="lazy" />
                 <span>{c.nome}</span>
               </a>
             ))}
@@ -118,7 +118,7 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
             {prodotti.map((p, i) => (
               <article className="card reveal" style={{ '--i': i % 3 } as React.CSSProperties} key={p.nome}>
                 <div className="card__img">
-                  <img src={`/foto/${p.foto}.jpg`} alt={p.nome} loading="lazy" />
+                  <img src={`${import.meta.env.BASE_URL}foto/${p.foto}.jpg`} alt={p.nome} loading="lazy" />
                   <button className="card__add" onClick={() => aggiungi(p.nome)}>Aggiungi</button>
                 </div>
                 <h4>{p.nome}</h4>
