@@ -1,9 +1,0 @@
-- generic [ref=e7]:
-  - 'generic "Mini Monkey: la cicogna lascia cadere la scimmietta nella giungla" [ref=e8]':
-    - img "Mini Monkey" [ref=e45]
-    - generic [aria-hidden] [ref=e46]: scorri
-    - generic [ref=e48]:
-      - img "Mini Monkey" [ref=e49]
-      - paragraph [ref=e50]: Abbigliamento per bambini, fatto a mano in Italia
-      - button "Scopri la collezione" [ref=e51] [cursor=pointer]
-  - button "Accendi l'audio" [ref=e52] [cursor=pointer]

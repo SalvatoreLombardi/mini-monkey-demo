@@ -1,4 +1,0 @@
-- generic [ref=f1e1]:
-  - img "Mini Monkey" [ref=f1e2]
-  - button "Entra con l'audio" [ref=f1e3] [cursor=pointer]
-  - button "Entra senza audio" [ref=f1e4] [cursor=pointer]
