@@ -19,20 +19,6 @@ a { color: inherit; text-decoration: none; }
 h2, h3, h4 { font-family: var(--serif); font-weight: 400; }
 em { font-style: italic; }
 
-/* ---------- intro ---------- */
-.intro { position: fixed; inset: 0; z-index: 100; background: var(--crema); display: grid; place-items: center; overflow: hidden; }
-.intro__logo { position: relative; width: min(82vw, 540px, 64vh); aspect-ratio: 1845 / 1926; background: var(--crema); }
-.intro__logo > img { position: absolute; height: auto; will-change: transform; mix-blend-mode: multiply; }
-.intro__text { left: 4.878%; top: 59.19%; width: 89.43%; }
-.intro__stork { left: 9.756%; top: 9.346%; width: 78.05%; }
-.intro__monkey { position: absolute; left: 64.23%; top: 38.16%; width: 20.33%; mix-blend-mode: multiply; transform-origin: 50% 100%; will-change: transform; }
-.intro__sway { transform-origin: 68% 6%; }
-.intro__flip { transform-origin: 50% 62%; }
-.intro__monkey img { display: block; width: 100%; height: auto; }
-.intro__dots { position: absolute; left: 74%; top: 62%; }
-.intro__dot { position: absolute; width: 9px; height: 9px; border-radius: 50%; opacity: 0; }
-.intro__skip { position: absolute; bottom: 24px; right: 24px; background: none; border: 0; color: var(--testo); opacity: .55; cursor: pointer; font: inherit; padding: 8px 12px; }
-
 /* ---------- nav ---------- */
 .nav { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px 28px; background: var(--crema); border-bottom: 1px solid var(--sabbia); }
 .nav__logo { height: 40px; width: auto; mix-blend-mode: multiply; }

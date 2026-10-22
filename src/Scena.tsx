@@ -35,7 +35,7 @@ export default function Scena() {
   return (
     <>
       <Palcoscenico suoni={scelta.suoni} onPronto={() => setSito(true)} />
-      {sito && <App senzaIntro />}
+      {sito && <App />}
     </>
   )
 }

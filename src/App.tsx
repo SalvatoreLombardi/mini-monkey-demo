@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Intro from './Intro'
 import { useReveal } from './useReveal'
 import { euro, prodotti, recensioni, SOGLIA_SPEDIZIONE, type Prodotto } from './dati'
 import { Carrello, Grazie, PaginaProdotto, type Riga } from './Negozio'
@@ -15,8 +14,7 @@ const collezioni = [
   { nome: 'Accessori', foto: 'clip-ciuccio' },
 ]
 
-export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
-  const [intro, setIntro] = useState(!senzaIntro)
+export default function App() {
   const [righe, setRighe] = useState<Riga[]>([])
   const [carrelloAperto, setCarrelloAperto] = useState(false)
   const [regalo, setRegalo] = useState(false)
@@ -25,13 +23,7 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
   const carrello = righe.reduce((t, r) => t + r.qta, 0)
   const arco = useRef<HTMLDivElement>(null)
   const hero = useRef<HTMLElement>(null)
-  const done = useCallback(() => setIntro(false), [])
-  useReveal(!intro)
-
-  // blocca lo scroll durante l'intro
-  useEffect(() => {
-    document.body.style.overflow = intro ? 'hidden' : ''
-  }, [intro])
+  useReveal(true)
 
   // leggero parallax sulla foto principale
   useEffect(() => {
@@ -54,7 +46,7 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
 
   // testo da sinistra, foto da destra: legati allo scroll (avanti e indietro)
   useEffect(() => {
-    if (intro || !hero.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    if (!hero.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
@@ -65,7 +57,7 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
         .from('.hero__mini', { x: 340, y: 50, rotation: 10, opacity: 0, duration: 1 }, 0.2)
     }, hero)
     return () => ctx.revert()
-  }, [intro])
+  }, [])
 
   const aggiungi = (p: Prodotto, taglia: string | null) => {
     setRighe((rs) => {
@@ -82,8 +74,6 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
 
   return (
     <>
-      {intro && <Intro onDone={done} />}
-
       <header className="nav">
         <a href="#top" aria-label="Mini Monkey">
           <img className="nav__logo" src={import.meta.env.BASE_URL + 'logo/scritta.png'} alt="Mini Monkey Italy" />
@@ -99,7 +89,7 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
         </button>
       </header>
 
-      <main id="top" className={intro ? '' : 'ready'}>
+      <main id="top">
         <section className="hero" ref={hero}>
           <div className="hero__text">
             <p className="eyebrow">Handmade · Organic · Made in Italy</p>
