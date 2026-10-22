@@ -1,15 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Intro from './Intro'
 import { useReveal } from './useReveal'
+import { euro, prodotti, recensioni, SOGLIA_SPEDIZIONE, type Prodotto } from './dati'
+import { Carrello, Grazie, PaginaProdotto, type Riga } from './Negozio'
+import './negozio.css'
 
-const prodotti = [
-  { nome: 'Vestitino rosa con volant', prezzo: '68,00', foto: 'vestitino-rosa' },
-  { nome: 'Completo azzurro polvere', prezzo: '64,00', foto: 'completo-azzurro' },
-  { nome: 'Completo rosa antico', prezzo: '62,00', foto: 'completo-rosa' },
-  { nome: 'Cappellino alle fragole', prezzo: '32,00', foto: 'cappellino-fragola' },
-  { nome: 'Clip ciuccio personalizzata', prezzo: '18,00', foto: 'clip-ciuccio' },
-  { nome: 'Copertina in cotone', prezzo: '58,00', foto: 'coperta' },
-]
+gsap.registerPlugin(ScrollTrigger)
 
 const collezioni = [
   { nome: 'Babies', foto: 'bimba-cesta' },
@@ -19,10 +17,14 @@ const collezioni = [
 
 export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
   const [intro, setIntro] = useState(!senzaIntro)
-  const [carrello, setCarrello] = useState(0)
-  const [avviso, setAvviso] = useState('')
-  const timer = useRef<number>(0)
+  const [righe, setRighe] = useState<Riga[]>([])
+  const [carrelloAperto, setCarrelloAperto] = useState(false)
+  const [regalo, setRegalo] = useState(false)
+  const [aperto, setAperto] = useState<string | null>(null)
+  const [grazie, setGrazie] = useState(false)
+  const carrello = righe.reduce((t, r) => t + r.qta, 0)
   const arco = useRef<HTMLDivElement>(null)
+  const hero = useRef<HTMLElement>(null)
   const done = useCallback(() => setIntro(false), [])
   useReveal(!intro)
 
@@ -50,12 +52,33 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const aggiungi = (nome: string) => {
-    setCarrello((c) => c + 1)
-    setAvviso(`${nome}: aggiunto (demo)`)
-    window.clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => setAvviso(''), 2200)
+  // testo da sinistra, foto da destra: legati allo scroll (avanti e indietro)
+  useEffect(() => {
+    if (intro || !hero.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: hero.current, start: 'top 100%', end: 'top 45%', scrub: 0.6 },
+      })
+      tl.from('.hero__text > *', { x: -260, opacity: 0, stagger: 0.07, duration: 0.8 }, 0)
+        .from('.hero__media', { x: 300, opacity: 0, duration: 1 }, 0)
+        .from('.hero__mini', { x: 340, y: 50, rotation: 10, opacity: 0, duration: 1 }, 0.2)
+    }, hero)
+    return () => ctx.revert()
+  }, [intro])
+
+  const aggiungi = (p: Prodotto, taglia: string | null) => {
+    setRighe((rs) => {
+      const e = rs.find((r) => r.id === p.id && r.taglia === taglia)
+      return e ? rs.map((r) => (r === e ? { ...r, qta: r.qta + 1 } : r)) : [...rs, { id: p.id, taglia, qta: 1 }]
+    })
+    setAperto(null)
+    setCarrelloAperto(true)
   }
+  const cambiaQta = (riga: Riga, delta: number) =>
+    setRighe((rs) => rs.flatMap((r) => (r === riga ? (r.qta + delta > 0 ? [{ ...r, qta: r.qta + delta }] : []) : [r])))
+  const apri = (id: string) => { setCarrelloAperto(false); setAperto(id) }
+  const aggiungiRapido = (p: Prodotto) => (p.taglie ? apri(p.id) : aggiungi(p, null))
 
   return (
     <>
@@ -71,18 +94,18 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
           <a href="#storia">Il brand</a>
           <a href="#contatti">Contatti</a>
         </nav>
-        <button className="nav__cart" aria-label={`Carrello, ${carrello} articoli`}>
+        <button className="nav__cart" onClick={() => setCarrelloAperto(true)} aria-label={`Carrello, ${carrello} articoli`}>
           Carrello <span key={carrello} className="nav__count">{carrello}</span>
         </button>
       </header>
 
       <main id="top" className={intro ? '' : 'ready'}>
-        <section className="hero">
+        <section className="hero" ref={hero}>
           <div className="hero__text">
-            <p className="eyebrow rise" style={{ '--d': '0ms' } as React.CSSProperties}>Handmade · Organic · Made in Italy</p>
-            <h2 className="rise" style={{ '--d': '90ms' } as React.CSSProperties}>Piccole cose,<br /><em>fatte con cura</em></h2>
-            <p className="lead rise" style={{ '--d': '180ms' } as React.CSSProperties}>Abbigliamento, nursery e regali per i più piccoli, lavorati a mano in Italia con fibre naturali.</p>
-            <a className="btn rise" style={{ '--d': '270ms' } as React.CSSProperties} href="#prodotti">Scopri la collezione</a>
+            <p className="eyebrow">Handmade · Organic · Made in Italy</p>
+            <h2>Piccole cose,<br /><em>fatte con cura</em></h2>
+            <p className="lead">Abbigliamento, nursery e regali per i più piccoli, lavorati a mano in Italia con fibre naturali.</p>
+            <a className="btn" href="#prodotti">Scopri la collezione</a>
           </div>
           <div className="hero__media">
             <div className="hero__arco" ref={arco}>
@@ -116,17 +139,27 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
           <h3 className="reveal">I nostri prodotti</h3>
           <div className="grid">
             {prodotti.map((p, i) => (
-              <article className="card reveal" style={{ '--i': i % 3 } as React.CSSProperties} key={p.nome}>
+              <article className="card reveal" style={{ '--i': i % 3 } as React.CSSProperties} key={p.id}>
                 <div className="card__img">
-                  <img src={`${import.meta.env.BASE_URL}foto/${p.foto}.jpg`} alt={p.nome} loading="lazy" />
-                  <button className="card__add" onClick={() => aggiungi(p.nome)}>Aggiungi</button>
+                  <button className="card__apri" onClick={() => apri(p.id)} aria-label={`Apri ${p.nome}`}>
+                    <img src={`${import.meta.env.BASE_URL}foto/${p.foto}.jpg`} alt={p.nome} loading="lazy" />
+                  </button>
+                  {(p.novita || p.rimasti) && <span className="card__tag">{p.rimasti ? `Ultimi ${p.rimasti}` : 'Novità'}</span>}
+                  <button className="card__add" onClick={() => aggiungiRapido(p)}>{p.taglie ? 'Scegli la taglia' : 'Aggiungi'}</button>
                 </div>
                 <h4>{p.nome}</h4>
-                <p>€ {p.prezzo}</p>
+                <p>€ {euro(p.prezzo)}</p>
               </article>
             ))}
           </div>
           <p className="nota reveal">Prodotti e prezzi di esempio, solo per la dimostrazione.</p>
+        </section>
+
+        <section className="fiducia reveal" aria-label="I nostri impegni">
+          <div><b>✦</b><h4>Fatto a mano</h4><p>Ogni pezzo è lavorato punto dopo punto</p></div>
+          <div><b>✦</b><h4>Spedizione gratuita</h4><p>Da € {SOGLIA_SPEDIZIONE} in tutta Italia</p></div>
+          <div><b>✦</b><h4>Confezione regalo</h4><p>Con bigliettino scritto a mano</p></div>
+          <div><b>✦</b><h4>Reso gratuito</h4><p>Entro 14 giorni, senza pensieri</p></div>
         </section>
 
         <section id="storia" className="storia">
@@ -143,6 +176,20 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
             </ul>
           </div>
         </section>
+
+        <section className="recensioni">
+          <h3 className="reveal">Dicono di noi</h3>
+          <div className="recensioni__lista">
+            {recensioni.map((r, i) => (
+              <figure className="reveal" style={{ '--i': i } as React.CSSProperties} key={r.nome}>
+                <div className="stelle" aria-label="5 stelle su 5">★★★★★</div>
+                <blockquote>“{r.testo}”</blockquote>
+                <figcaption>{r.nome}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <p className="nota">Recensioni di esempio, solo per la dimostrazione.</p>
+        </section>
       </main>
 
       <footer id="contatti" className="footer">
@@ -151,7 +198,10 @@ export default function App({ senzaIntro = false }: { senzaIntro?: boolean }) {
         <p className="footer__small">Pagina dimostrativa: prodotti e prezzi sono di esempio.</p>
       </footer>
 
-      <div className={`toast${avviso ? ' on' : ''}`} role="status">{avviso}</div>
+      <PaginaProdotto prodotto={prodotti.find((p) => p.id === aperto) ?? null} onChiudi={() => setAperto(null)} onAggiungi={aggiungi} onApri={setAperto} />
+      <Carrello aperto={carrelloAperto} righe={righe} regalo={regalo} onRegalo={setRegalo} onQta={cambiaQta} onChiudi={() => setCarrelloAperto(false)} onOrdina={() => { setCarrelloAperto(false); setGrazie(true) }} onApri={apri} />
+      <Grazie aperto={grazie} onChiudi={() => setGrazie(false)} />
+
     </>
   )
 }
