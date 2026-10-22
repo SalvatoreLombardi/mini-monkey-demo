@@ -47,7 +47,7 @@ export function Carrello({ aperto, righe, regalo, onRegalo, onQta, onChiudi, onO
 
         {righe.length === 0 ? (
           <div className="carrello__vuoto">
-            <img src={import.meta.env.BASE_URL + 'logo/scimmia.png'} alt="" />
+            <img src={import.meta.env.BASE_URL + 'scena/piedi.webp'} alt="" />
             <p>Il carrello è vuoto,<br />la scimmietta si annoia.</p>
             <button className="btn" onClick={() => { onChiudi(); document.getElementById('prodotti')?.scrollIntoView({ behavior: 'smooth' }) }}>Vai ai prodotti</button>
           </div>
@@ -198,7 +198,7 @@ export function Grazie({ aperto, onChiudi }: { aperto: boolean; onChiudi: () => 
   return (
     <div className={`grazie${aperto ? ' on' : ''}`} onClick={onChiudi} aria-hidden={!aperto}>
       <div onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Ordine di prova">
-        <img src={import.meta.env.BASE_URL + 'logo/scimmia.png'} alt="" />
+        <img src={import.meta.env.BASE_URL + 'scena/piedi.webp'} alt="" />
         <h3>Grazie!</h3>
         <p>Qui partirebbe il pagamento. Questo è un sito dimostrativo: nessun ordine è stato inviato.</p>
         <button className="btn" onClick={onChiudi}>Continua a guardare</button>
